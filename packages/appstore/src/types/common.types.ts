@@ -8,6 +8,7 @@ export type RequiredAndNotNull<T> = {
     [P in keyof T]-?: Exclude<T[P], null | undefined>;
 };
 
+export type TExistingData = DetailsOfEachMT5Loginid & DetailsOfEachMT5Loginid[];
 export type TAccountCategory = 'real' | 'demo';
 export type TPlatform = 'dxtrade' | 'mt5';
 export type TMarketType = 'financial' | 'synthetic' | 'all';
