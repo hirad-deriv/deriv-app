@@ -8,6 +8,8 @@ import { jurisdiction_contents } from './jurisdiction-contents';
 import { useStores } from 'Stores/index';
 import { TRootStore, TExistingData } from 'Types';
 
+import './jurisdiction-modal.scss';
+
 type TAvailableAccountAPI = [
     {
         market_type: string;
@@ -102,7 +104,7 @@ const JurisdictionCard = ({
     need_poi_for_bvi_labuan,
     poi_acknowledged_for_vanuatu,
 }: TJurisdictionCard) => {
-    const card_classname = `cfd-jurisdiction-card--${account_type}`;
+    const card_classname = `cfd-jurisdiction-card`;
     const number_of_synthetic_accounts_to_be_shown = synthetic_available_accounts?.length;
     const number_of_financial_accounts_to_be_shown = financial_available_accounts?.length;
 
@@ -387,7 +389,7 @@ const JurisdictionModalContent = ({
     const { client, modules }: TRootStore = useStores();
     const { is_virtual } = client;
     const { real_financial_accounts_existing_data, real_synthetic_accounts_existing_data } = modules.cfd;
-    const card_classname = `cfd-jurisdiction-card--${account_type}`;
+    const card_classname = `cfd-jurisdiction-card`;
 
     const poa_none = poa_status === StatusCodes.none;
     const poi_none = poi_status === StatusCodes.none;

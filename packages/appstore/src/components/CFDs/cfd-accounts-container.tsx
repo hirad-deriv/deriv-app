@@ -29,7 +29,7 @@ const CFDAccounts = ({ account_type }: TCFDAccountsProps) => {
         trading_platform_available_accounts,
     } = client;
 
-    const { current_list } = modules.cfd;
+    const { current_list, toggleCFDPersonalDetailsModal, enableCFDPasswordModal } = modules.cfd;
 
     const hasAccount = (platform: TPlatform, landing_company_short?: string) =>
         Object.keys(current_list).some(key =>

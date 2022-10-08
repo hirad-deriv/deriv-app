@@ -76,7 +76,6 @@ const JurisdictionModal = ({
     toggleCFDVerificationModal,
     account_status,
     updateAccountStatus,
-
     mt5_login_list,
 }: TJurisdictionModalProps) => {
     const [checked, setChecked] = React.useState(false);

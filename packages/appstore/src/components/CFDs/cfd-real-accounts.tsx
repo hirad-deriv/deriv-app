@@ -31,9 +31,16 @@ const CFDRealAccounts = ({
 }: TCFDAccountsProps) => {
     const { client, modules, ui }: TRootStore = useStores();
     const { openDerivRealAccountNeededModal, openTopUpModal } = ui;
-    const { createCFDAccount, disableCFDPasswordModal, setCurrentAccount, toggleMT5TradeModal, setMT5TradeAccount } =
-        modules.cfd;
-    const { isEligibleForMoreRealMt5, is_logged_in, upgradeable_landing_companies } = client;
+    const {
+        is_jurisdiction_modal_visible,
+        createCFDAccount,
+        disableCFDPasswordModal,
+        setCurrentAccount,
+        toggleMT5TradeModal,
+        setMT5TradeAccount,
+        toggleJurisdictionModal,
+    } = modules.cfd;
+    const { isEligibleForMoreRealMt5 } = client;
     const history = useHistory();
 
     const available_real_accounts: Array<TStaticAccountProps> = [
@@ -66,18 +73,46 @@ const CFDRealAccounts = ({
             // type: 'all'
         },
     ];
-    const should_show_missing_real_account =
-        is_logged_in && !has_real_account && upgradeable_landing_companies?.length > 0;
-    //is_real_enabled should be added to the should_enable condition
-    const should_enable_add_button = should_show_missing_real_account && CFD_PLATFORMS.MT5;
 
-    const onSelectRealAccount = (type: string, platform: TPlatform) => {
-        if (should_enable_add_button) {
-            openDerivRealAccountNeededModal();
-        } else {
-            createCFDAccount({ type, category: 'real', platform });
-        }
-    };
+    // const onSelectRealAccount = () => {
+    //     const type_of_account = {
+    //         category: account_type.category,
+    //         type: account_type.type,
+    //     };
+
+    //     if (is_eu && jurisdiction_selected_shortcode === 'maltainvest') {
+    //         if (poi_poa_verified) {
+    //             openPasswordModal(type_of_account);
+    //         } else {
+    //             toggleCFDVerificationModal();
+    //         }
+    //     } else if (jurisdiction_selected_shortcode === 'svg') {
+    //         openPasswordModal(type_of_account);
+    //     } else if (jurisdiction_selected_shortcode === 'vanuatu') {
+    //         if (need_poi_for_vanuatu) {
+    //             toggleCFDVerificationModal();
+    //         } else if (poi_poa_verified) {
+    //             // for bvi, labuan & vanuatu:
+    //             if (!has_submitted_personal_details) {
+    //                 toggleCFDPersonalDetailsModal();
+    //             } else {
+    //                 openPasswordModal(type_of_account);
+    //             }
+    //         } else {
+    //             toggleCFDVerificationModal();
+    //         }
+    //     } else if (need_poi_for_bvi_labuan) {
+    //         toggleCFDVerificationModal();
+    //     } else if (poi_poa_verified) {
+    //         if (!has_submitted_personal_details) {
+    //             toggleCFDPersonalDetailsModal();
+    //         } else {
+    //             openPasswordModal(type_of_account);
+    //         }
+    //     } else {
+    //         toggleCFDVerificationModal();
+    //     }
+    // };
 
     const openAccountTransfer = (
         data: DetailsOfEachMT5Loginid & { account_id?: string; platform?: string },
@@ -176,11 +211,9 @@ const CFDRealAccounts = ({
                                               account.platform !== CFD_PLATFORMS.DXTRADE && (
                                                   <AddDerived
                                                       title={localize(`More ${account.name} accounts`)}
-                                                      onClickHandler={() =>
-                                                          account.name === 'Financial'
-                                                              ? onSelectRealAccount('financial', 'mt5')
-                                                              : onSelectRealAccount('synthetic', 'mt5')
-                                                      }
+                                                      onClickHandler={() => {
+                                                          toggleJurisdictionModal();
+                                                      }}
                                                       class_names='cfd-real-account__accounts--item__add-derived'
                                                   />
                                               )}
@@ -196,11 +229,9 @@ const CFDRealAccounts = ({
                                           platform={account.platform}
                                           disabled={account.disabled}
                                           //   TODO will pass the click functions when flows are updated
-                                          onClickGet={() =>
-                                              account.name === 'Financial'
-                                                  ? onSelectRealAccount('financial', 'mt5')
-                                                  : onSelectRealAccount('synthetic', 'mt5')
-                                          }
+                                          onClickGet={() => {
+                                              toggleJurisdictionModal();
+                                          }}
                                           description={account.description}
                                       />
                                   </div>
