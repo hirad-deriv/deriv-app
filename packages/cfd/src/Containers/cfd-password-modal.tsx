@@ -1,10 +1,10 @@
-import { Formik, FormikErrors, FormikHelpers } from 'formik';
 import React from 'react';
+import { Formik, FormikErrors, FormikHelpers } from 'formik';
 import { RouteComponentProps, withRouter } from 'react-router';
 import { SentEmailModal } from '@deriv/account';
 import { DetailsOfEachMT5Loginid, GetAccountStatus, LandingCompany, Mt5NewAccount } from '@deriv/api-types';
-import RootStore from 'Stores/index';
-import { getMtCompanies, getFormattedJurisdictionCode, TMtCompanies } from 'Stores/Modules/CFD/Helpers/cfd-config';
+import RootStore from '../Stores/index';
+import { getMtCompanies, getFormattedJurisdictionCode, TMtCompanies } from '../Stores/Modules/CFD/Helpers/cfd-config';
 import {
     FormSubmitButton,
     Icon,
@@ -28,9 +28,9 @@ import {
     WS,
 } from '@deriv/shared';
 import { localize, Localize } from '@deriv/translations';
-import SuccessDialog from 'Components/success-dialog';
-import 'Sass/cfd.scss';
-import { connect } from 'Stores/connect';
+import SuccessDialog from '../Components/success-dialog';
+import '../sass/cfd.scss';
+import { connect } from '../Stores/connect';
 import ChangePasswordConfirmation from './cfd-change-password-confirmation';
 
 export type TCFDPasswordFormValues = { password: string };
