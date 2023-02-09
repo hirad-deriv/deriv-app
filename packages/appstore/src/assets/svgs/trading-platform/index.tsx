@@ -23,6 +23,8 @@ import DerivXRebranding from 'Assets/svgs/trading-platform/ic-rebranding-derivx.
 import DTraderRebranding from 'Assets/svgs/trading-platform/ic-rebranding-dtrader.svg';
 import MT5DerivedRebranding from 'Assets/svgs/trading-platform/ic-rebranding-mt5-derived.svg';
 import MT5FinancialRebranding from 'Assets/svgs/trading-platform/ic-rebranding-mt5-financial.svg';
+import MT5DerivedRebrandingModal from 'Assets/svgs/trading-platform/ic-rebranding-mt5-derived-modal.svg';
+import MT5FinancialRebrandingModal from 'Assets/svgs/trading-platform/ic-rebranding-mt5-financial-modal.svg';
 import SmartTraderRebranding from 'Assets/svgs/trading-platform/ic-rebranding-smart-trader.svg';
 import { IconProps } from '../icon-types';
 
@@ -51,6 +53,8 @@ export const PlatformIcons = {
     DTraderRebranding,
     MT5DerivedRebranding,
     MT5FinancialRebranding,
+    MT5DerivedRebrandingModal,
+    MT5FinancialRebrandingModal,
     SmartTraderRebranding,
 };
 

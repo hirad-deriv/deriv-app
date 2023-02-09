@@ -626,6 +626,7 @@ export const icons =
         'IcDxtradeFinancialPlatform',
         'IcDxtradeFinancial',
         'IcDxtradeOnePassword',
+        'IcDxtradeRebranding',
         'IcDxtradeSyntheticPlatform',
     ],
     'flag': [
@@ -665,6 +666,7 @@ export const icons =
         'IcMt5OnePassword',
         'IcMt5OpenMarkets',
         'IcMt5PasswordUpdated',
+        'IcMt5Rebranding',
         'IcMt5Responsive',
         'IcMt5Support',
         'IcMt5SyntheticDashboard',

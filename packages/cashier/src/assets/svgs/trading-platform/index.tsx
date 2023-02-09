@@ -1,8 +1,8 @@
 import React from 'react';
-import Derived from './ic-appstore-derived.svg';
-import Financial from './ic-appstore-financial.svg';
+import Derived from './ic-appstore-derived-rebranding.svg';
+import Financial from './ic-appstore-financial-rebranding.svg';
 import Options from './ic-appstore-options.svg';
-import CFDs from './ic-appstore-cfds.svg';
+import CFDs from './ic-appstore-cfds-rebranding.svg';
 
 export interface IconProps<T> {
     icon: T;

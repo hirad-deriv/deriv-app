@@ -11,13 +11,13 @@ import { CFD_PLATFORMS } from '@deriv/shared';
 
 const derived_account: TAccountType = {
     title_and_type: 'Derived',
-    icon: 'Derived',
+    icon: 'MT5DerivedRebrandingModal',
     description: 'Trade CFDs on MT5 with Derived indices that simulate real-world market movements.',
 };
 
 const financial_account: TAccountType = {
     title_and_type: 'Financial',
-    icon: 'Financial',
+    icon: 'MT5FinancialRebrandingModal',
     description: 'Trade CFDs on MT5 with forex, stock indices, commodities, and cryptocurrencies.',
 };
 
