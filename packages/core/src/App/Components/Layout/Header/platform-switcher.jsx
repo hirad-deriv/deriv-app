@@ -10,6 +10,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import classNames from 'classnames';
 import { withRouter } from 'react-router-dom';
+import { connect } from 'Stores/connect';
 
 const PlatformSwitcher = ({
     toggleDrawer,
@@ -19,6 +20,7 @@ const PlatformSwitcher = ({
     is_landing_company_loaded,
     is_logged_in,
     is_logging_in,
+    is_dark_mode,
 }) => {
     const [is_open, setIsOpen] = React.useState(false);
 
@@ -37,6 +39,8 @@ const PlatformSwitcher = ({
         setIsOpen(false);
         is_close_drawer_fired_ref.current = true;
     };
+
+    // console.log("platform-switcher is_dark_mode", is_dark_mode)
 
     return (is_logged_in || is_logging_in ? !is_landing_company_loaded : app_routing_history.length === 0) ? (
         <div
@@ -60,7 +64,12 @@ const PlatformSwitcher = ({
             >
                 <Icon
                     className='platform-switcher__icon'
-                    icon={getPlatformInformation(app_routing_history).icon}
+                    icon={
+                        is_dark_mode
+                            ? `${getPlatformInformation(app_routing_history).icon  }Dark`
+                            : getPlatformInformation(app_routing_history).icon
+                    }
+                    alt={getPlatformInformation(app_routing_history).header}
                     size={128}
                 />
                 <Icon className='platform-switcher__arrow' icon='IcChevronDownBold' />
@@ -91,6 +100,13 @@ PlatformSwitcher.propTypes = {
     toggleDrawer: PropTypes.func,
     app_routing_history: PropTypes.array,
     is_pre_appstore: PropTypes.bool,
+    is_dark_mode: PropTypes.bool,
 };
 
-export default withRouter(PlatformSwitcher);
+// export default withRouter(PlatformSwitcher);
+
+export default withRouter(
+    connect(({ ui }) => ({
+        is_dark_mode: ui.is_dark_mode_on,
+    }))(PlatformSwitcher)
+);
