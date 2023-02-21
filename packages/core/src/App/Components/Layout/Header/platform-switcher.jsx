@@ -40,8 +40,6 @@ const PlatformSwitcher = ({
         is_close_drawer_fired_ref.current = true;
     };
 
-    // console.log("platform-switcher is_dark_mode", is_dark_mode)
-
     return (is_logged_in || is_logging_in ? !is_landing_company_loaded : app_routing_history.length === 0) ? (
         <div
             data-testid='dt_platform_switcher_preloader'
@@ -66,8 +64,8 @@ const PlatformSwitcher = ({
                     className='platform-switcher__icon'
                     icon={
                         is_dark_mode
-                            ? `${getPlatformInformation(app_routing_history).icon  }Dark`
-                            : getPlatformInformation(app_routing_history).icon
+                            ? getPlatformInformation(app_routing_history).icon
+                            : `${getPlatformInformation(app_routing_history).icon}Dark`
                     }
                     alt={getPlatformInformation(app_routing_history).header}
                     size={128}
@@ -89,6 +87,7 @@ const PlatformSwitcher = ({
                     closeDrawer={closeDrawer}
                     app_routing_history={app_routing_history}
                     is_pre_appstore={is_pre_appstore}
+                    is_dark_mode={is_dark_mode}
                 />
             </CSSTransition>
         </React.Fragment>
@@ -101,9 +100,10 @@ PlatformSwitcher.propTypes = {
     app_routing_history: PropTypes.array,
     is_pre_appstore: PropTypes.bool,
     is_dark_mode: PropTypes.bool,
+    is_landing_company_loaded: PropTypes.bool,
+    is_logged_in: PropTypes.bool,
+    is_logging_in: PropTypes.bool,
 };
-
-// export default withRouter(PlatformSwitcher);
 
 export default withRouter(
     connect(({ ui }) => ({
