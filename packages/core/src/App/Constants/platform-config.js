@@ -32,8 +32,7 @@ const platform_config = [
         link_to: routes.dxtrade,
     },
     {
-        icon: getPlatformSettings('trader').icon,
-        // iconDark: getPlatformSettings('traderDark').icon,
+        icon: getPlatformSettings('smarttrader').icon,
         title: () => getPlatformSettings('smarttrader').name,
         name: getPlatformSettings('smarttrader').name,
         description: () => localize('Trade the world’s markets with our popular user-friendly platform.'),

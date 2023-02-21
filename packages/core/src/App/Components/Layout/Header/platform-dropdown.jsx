@@ -11,8 +11,7 @@ const PlatformBox = ({ platform: { icon, description }, is_dark_mode }) => (
         <div className='platform-dropdown__list-platform-background' />
 
         <div className='platform-switcher__dropdown'>
-            <Icon icon={is_dark_mode ? icon : `${icon  }Dark`} height={42} width={150} />
-            <h1>{icon}</h1>
+            <Icon icon={is_dark_mode ? icon : `${icon}Dark`} height={42} width={150} />
             <p className='platform-dropdown__list-platform-description'>{description()}</p>
         </div>
     </React.Fragment>
