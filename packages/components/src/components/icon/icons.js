@@ -683,6 +683,7 @@ import './rebranding/ic-rebranding-deriv-trader.svg';
 import './rebranding/ic-rebranding-derivgo-dashboard.svg';
 import './rebranding/ic-rebranding-derivx-dashboard.svg';
 import './rebranding/ic-rebranding-dtrader-dashboard.svg';
+import './rebranding/ic-rebranding-mt5-cfds.svg';
 import './rebranding/ic-rebranding-mt5-derived-dashboard.svg';
 import './rebranding/ic-rebranding-mt5-financial-dashboard.svg';
 import './rebranding/ic-rebranding-mt5-logo.svg';

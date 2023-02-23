@@ -88,7 +88,10 @@ const Onboarding = ({ contents = trading_hub_contents }: TOnboardingProps) => {
     return (
         <div className='onboarding-wrapper'>
             <div className='onboarding-header'>
-                <TradigPlatformIconProps icon={'DerivLogo'} />
+                <div className='onboarding-header--deriv-icon'>
+                    <TradigPlatformIconProps icon={'DerivLogo'} />
+                </div>
+
                 <Icon
                     icon='IcCross'
                     custom_color='var(--general-main-1)'

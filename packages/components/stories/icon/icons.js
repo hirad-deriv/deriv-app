@@ -708,6 +708,7 @@ export const icons =
         'IcRebrandingDerivgoDashboard',
         'IcRebrandingDerivxDashboard',
         'IcRebrandingDtraderDashboard',
+        'IcRebrandingMt5Cfds',
         'IcRebrandingMt5DerivedDashboard',
         'IcRebrandingMt5FinancialDashboard',
         'IcRebrandingMt5Logo',
