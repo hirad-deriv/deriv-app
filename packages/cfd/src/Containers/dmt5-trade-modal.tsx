@@ -2,8 +2,15 @@ import React from 'react';
 import { Text, Button, Icon, Money, Popover } from '@deriv/components';
 import { TPasswordBoxProps, TTradingPlatformAccounts, TCFDDashboardContainer } from '../Components/props.types';
 import { DetailsOfEachMT5Loginid } from '@deriv/api-types';
-import { CFD_PLATFORMS, getCFDAccountDisplay, getCFDPlatformLabel, getUrlBase, getCFDAccountKey } from '@deriv/shared';
-import { localize } from '@deriv/translations';
+import {
+    CFD_PLATFORMS,
+    getCFDAccountDisplay,
+    getCFDPlatformLabel,
+    getUrlBase,
+    getCFDAccountKey,
+    isDesktop,
+} from '@deriv/shared';
+import { localize, Localize } from '@deriv/translations';
 import { CFDAccountCopy } from '../Components/cfd-account-copy';
 import { getPlatformMt5DownloadLink, getMT5WebTerminalLink } from '../Helpers/constants';
 import TradingPlatformIcon from '../Assets/svgs/trading-platform';
@@ -20,6 +27,7 @@ type TMT5TradeModalProps = {
     ) => void;
     toggleModal: () => void;
     dxtrade_tokens: TCFDDashboardContainer['dxtrade_tokens'];
+    setIsAcuityModalOpen: (value: boolean) => void;
 };
 
 export type TSpecBoxProps = {
@@ -86,6 +94,7 @@ const DMT5TradeModal = ({
     show_eu_related_content,
     onPasswordManager,
     toggleModal,
+    setIsAcuityModalOpen,
 }: TMT5TradeModalProps) => {
     const getCompanyShortcode = () => {
         if (
@@ -176,6 +185,28 @@ const DMT5TradeModal = ({
                     </div>
                 </div>
             </div>
+            {isDesktop() && mt5_trade_account.market_type === 'financial' && (
+                <div className='acuity-container'>
+                    <Button
+                        onClick={() => setIsAcuityModalOpen(true)}
+                        className='acuity-banner'
+                        type='button'
+                        transparent
+                    >
+                        <div className='acuity-banner--wrapper'>
+                            <Icon icon='icMt5Acuity' />
+                            <Text as='p' size='xxs' weight='bold' color='prominent'>
+                                <Localize i18n_default_text='Get Acuity trading tools' />
+                            </Text>
+                            <Icon
+                                icon='IcAddOutline'
+                                color='secondary'
+                                className='acuity-banner--wrapper--arrow-icon'
+                            />
+                        </div>
+                    </Button>
+                </div>
+            )}
             <div className='cfd-trade-modal__download-center-app'>
                 <div className='cfd-trade-modal__download-center-app--option'>
                     <Icon icon='IcRebrandingMt5Logo' size={32} />

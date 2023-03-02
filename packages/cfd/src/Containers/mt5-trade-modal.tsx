@@ -26,6 +26,7 @@ type TMT5TradeModalProps = {
     platform: 'mt5' | 'dxtrade';
     dxtrade_tokens: TCFDDashboardContainer['dxtrade_tokens'];
     is_demo: string;
+    setIsAcuityModalOpen: (values: boolean) => void;
     show_eu_related_content: boolean;
 };
 
@@ -35,7 +36,7 @@ const MT5TradeModal = ({
     enableApp,
     is_eu_user,
     is_open,
-    context,
+    setIsAcuityModalOpen,
     onPasswordManager,
     toggleModal,
     dxtrade_tokens,
@@ -51,6 +52,7 @@ const MT5TradeModal = ({
                     show_eu_related_content={show_eu_related_content}
                     onPasswordManager={onPasswordManager}
                     toggleModal={toggleModal}
+                    setIsAcuityModalOpen={setIsAcuityModalOpen}
                     dxtrade_tokens={dxtrade_tokens}
                 />
             );
@@ -78,7 +80,7 @@ const MT5TradeModal = ({
                     toggleModal={toggleModal}
                     should_header_stick_body={false}
                     width='600px'
-                    height={platform === 'mt5' ? '720px' : '500px'}
+                    height={platform === 'mt5' ? '760px' : '500px'}
                     exit_classname='cfd-modal--custom-exit'
                 >
                     <CFDTradeModal />
@@ -107,5 +109,6 @@ export default connect(({ modules: { cfd }, modules, ui, common, traders_hub }: 
     disableApp: ui.disableApp,
     enableApp: ui.enableApp,
     mt5_trade_account: modules.cfd.mt5_trade_account,
+    setIsAcuityModalOpen: ui.setIsAcuityModalOpen,
     show_eu_related_content: traders_hub.show_eu_related_content,
 }))(MT5TradeModal);
