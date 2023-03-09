@@ -280,7 +280,6 @@ const StaticDashboard = ({
                                 </div>
                             )}
 
-                            {/* ADDED CODE HERE */}
                             <div className='static-dashboard-wrapper__body--header'>
                                 <Text
                                     as='h2'
@@ -312,7 +311,6 @@ const StaticDashboard = ({
                                     is_eu_user={is_eu_user}
                                 />
                             </div>
-                            {/* ADDED CODE ENDS HERE */}
 
                             {!is_eu_user && (
                                 <div>
