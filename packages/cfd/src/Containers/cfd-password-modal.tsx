@@ -197,9 +197,12 @@ const ReviewMessageForMT5 = ({
     return null;
 };
 
-const IconType = React.memo(({ platform, type, show_eu_related_content }: TIconTypeProps) => {
+const IconType = React.memo((is_pre_appstore, { platform, type, show_eu_related_content }: TIconTypeProps) => {
     if (platform === CFD_PLATFORMS.DXTRADE) {
-        return <Icon icon='IcRebrandingDerivx' size={128} />;
+        if (is_pre_appstore) {
+            return <Icon icon='IcRebrandingDerivx' size={128} />;
+        }
+        return <Icon icon='IcDxtradeDerivxPlatform' size={128} />;
     }
 
     switch (type) {
