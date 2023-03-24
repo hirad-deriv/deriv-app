@@ -746,7 +746,7 @@ const AccountSwitcher = props => {
                             )}
                             {getRemainingDemoDXTrade().map(account => (
                                 <div key={account.title} className='acc-switcher__new-account'>
-                                    <Icon icon={`IcDxtrade-${account.icon}`} size={24} />
+                                    <Icon icon={`IcDxtradeDerivxPlatform`} size={24} />
                                     <Text size='xs' color='general' className='acc-switcher__new-account-text'>
                                         {account.title}
                                     </Text>
@@ -1038,7 +1038,7 @@ const AccountSwitcher = props => {
                                             'acc-switcher__new-account--disabled': props.dxtrade_accounts_list_error,
                                         })}
                                     >
-                                        <Icon icon={`IcDxtrade-${account.icon}`} size={24} />
+                                        <Icon icon={`IcDxtradeDerivxPlatform`} size={24} />
                                         <Text size='xs' color='general' className='acc-switcher__new-account-text'>
                                             {/* TODO: Remove the below condition once Deriv X update is released */}
                                             {account.title === localize('Derived')
