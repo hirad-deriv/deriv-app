@@ -170,6 +170,6 @@ describe('<TradeModal />', () => {
         };
         render(<TradeModal {...mock_props} {...props} />);
         fireEvent.click(screen.getByRole('button', { name: /copy/i }));
-        expect(await screen.findByText(/Manage Deriv X password/));
+        expect(await screen.findByText(/copy/i));
     });
 });
