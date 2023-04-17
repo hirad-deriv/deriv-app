@@ -1,5 +1,6 @@
 import React from 'react';
 import { Router } from 'react-router';
+import { createBrowserHistory } from 'history';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import TradeModal from '../trade-modal';
 
@@ -31,7 +32,7 @@ describe('<TradeModal />', () => {
     };
 
     beforeAll(() => {
-        modal_root_el = document.createElement('div');
+        let modal_root_el = document.createElement('div');
         modal_root_el.setAttribute('id', 'modal_root');
         document.body.appendChild(modal_root_el);
     });
@@ -44,10 +45,57 @@ describe('<TradeModal />', () => {
         jest.clearAllMocks();
     });
 
-    it('should render the modal', async () => {
+    it('should render the Deriv X modal', async () => {
         render(<TradeModal {...mock_props} />);
         await waitFor(() => {
             expect(screen.getByText(/Deriv X/i)).toBeInTheDocument();
+        });
+    });
+
+    it('should show the the Deriv X run on browser text', async () => {
+        render(<TradeModal {...mock_props} />);
+        await waitFor(() => {
+            expect(screen.getByText(/Run Deriv X on your browser/i)).toBeInTheDocument();
+        });
+    });
+
+    it('should render the Deriv EZ modal', async () => {
+        const props = {
+            platform: 'derivez',
+        };
+        render(<TradeModal {...mock_props} {...props} />);
+        await waitFor(() => {
+            expect(screen.getByText(/Deriv EZ/i)).toBeInTheDocument();
+        });
+    });
+
+    it('should show the the Deriv EZ run on browser text', async () => {
+        const props = {
+            platform: 'derivez',
+        };
+        render(<TradeModal {...mock_props} {...props} />);
+        await waitFor(() => {
+            expect(screen.getByText(/Run Deriv EZ on your browser/i)).toBeInTheDocument();
+        });
+    });
+
+    it('should render the cTrader modal', async () => {
+        const props = {
+            platform: 'ctrader',
+        };
+        render(<TradeModal {...mock_props} {...props} />);
+        await waitFor(() => {
+            expect(screen.getByText(/cTrader/i)).toBeInTheDocument();
+        });
+    });
+
+    it('should show the the cTrader run on browser text', async () => {
+        const props = {
+            platform: 'ctrader',
+        };
+        render(<TradeModal {...mock_props} {...props} />);
+        await waitFor(() => {
+            expect(screen.getByText(/Run cTrader on your browser/i)).toBeInTheDocument();
         });
     });
 
@@ -72,47 +120,13 @@ describe('<TradeModal />', () => {
 
         render(
             <Router history={history}>
-                <CFDPasswordModal {...mock_props} {...props} />
+                <TradeModal {...mock_props} {...props} />
             </Router>
         );
 
         expect(
             await screen.findByText(/to start trading, transfer funds from your Deriv account into this account./i)
         ).toBeInTheDocument();
-    });
-
-    it('should show transfer message on successful cTrader account creation', async () => {
-        const props = {
-            is_cfd_success_dialog_enabled: true,
-            is_password_modal_exited: true,
-            account_type: { category: 'real', type: 'all' },
-            is_eu: false,
-            is_fully_authenticated: false,
-            platform: 'ctrader',
-        };
-
-        render(
-            <Router history={history}>
-                <CFDPasswordModal {...mock_props} {...props} />
-            </Router>
-        );
-
-        expect(
-            await screen.findByText(/to start trading, transfer funds from your Deriv account into this account./i)
-        ).toBeInTheDocument();
-    });
-
-    it('should display Deriv X icon in Trade modal', async () => {
-        const props = {
-            platform: 'dxtrade',
-        };
-        render(
-            <Router history={history}>
-                <CFDPasswordModal {...mock_props} {...props} />
-            </Router>
-        );
-
-        expect(await screen.findByText('IcBrandDerivx')).toBeInTheDocument();
     });
 
     it('should display Deriv EZ icon in Trade modal', async () => {
@@ -121,7 +135,7 @@ describe('<TradeModal />', () => {
         };
         render(
             <Router history={history}>
-                <CFDPasswordModal {...mock_props} {...props} />
+                <TradeModal {...mock_props} {...props} />
             </Router>
         );
 
@@ -134,10 +148,28 @@ describe('<TradeModal />', () => {
         };
         render(
             <Router history={history}>
-                <CFDPasswordModal {...mock_props} {...props} />
+                <TradeModal {...mock_props} {...props} />
             </Router>
         );
 
         expect(await screen.findByText('IcBrandCtrader')).toBeInTheDocument();
+    });
+
+    it('should render ChangePasswordConfirmationModal if change password button is clicked', async () => {
+        const props = {
+            platform: 'dxtrader',
+        };
+        render(<TradeModal {...mock_props} {...props} />);
+        fireEvent.click(screen.getByRole('button', { name: /change password/i }));
+        expect(await screen.findByText(/Manage Deriv X password/));
+    });
+
+    it('should render ChangePasswordConfirmationModal if change password button is clicked', async () => {
+        const props = {
+            platform: 'dxtrader',
+        };
+        render(<TradeModal {...mock_props} {...props} />);
+        fireEvent.click(screen.getByRole('button', { name: /copy/i }));
+        expect(await screen.findByText(/Manage Deriv X password/));
     });
 });
