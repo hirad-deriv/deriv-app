@@ -273,6 +273,7 @@ export type TCompareAccountRowProps = TCompareAccountContentProps & {
     CFDs_restricted_countries: boolean;
     financial_restricted_countries: boolean;
     is_preappstore_restricted_cr_demo_account: boolean;
+    residence: string;
 };
 
 export type TCompareAccountContentProps = {
@@ -298,6 +299,15 @@ export type TDMT5CompareModalContentProps = {
     should_show_derivx: boolean;
     show_eu_related_content: boolean;
     toggleCompareAccounts: () => void;
+    trading_platform_available_accounts: TTradingPlatformAvailableAccount[];
+    updateMT5Status: () => void;
+    upgradeable_landing_companies: unknown[];
+    no_CR_account: boolean;
+    is_eu_user: boolean;
+    no_MF_account: boolean;
+    CFDs_restricted_countries: string[];
+    financial_restricted_countries: string[];
+    residence: string;
 };
 
 export type TCFDDbviOnboardingProps = {
