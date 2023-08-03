@@ -2,7 +2,7 @@ import React from 'react';
 import { Redirect, Route, RouteComponentProps } from 'react-router-dom';
 import { redirectToLogin, isEmptyObject, routes, removeBranchName, default_title } from '@deriv/shared';
 import { getLanguage } from '@deriv/translations';
-import { TBinaryRoutes, TRoute, TRouteConfig } from 'src/types/common-prop-types';
+import { TBinaryRoutes, TRoute, TRouteConfig } from '../../types/common-prop-types';
 
 type TRouteWithSubRoutesProps = TRouteConfig & TBinaryRoutes;
 
@@ -11,7 +11,7 @@ const RouteWithSubRoutes = (route: TRouteWithSubRoutesProps) => {
         let result = null;
 
         if (route.component === Redirect) {
-            let to = route.to;
+            let to = route.to as string;
 
             // This if clause has been added just to remove '/index' from url in localhost env.
             if (route.path === routes.index) {
@@ -22,14 +22,17 @@ const RouteWithSubRoutes = (route: TRouteWithSubRoutesProps) => {
         } else if (route.is_authenticated && !route.is_logged_in && !route.is_logging_in) {
             redirectToLogin(route.is_logged_in, getLanguage());
         } else {
-            const default_subroute: TRoute = (route.routes ?? []).reduce(
+            const default_subroute = (route.routes ?? []).reduce<TRoute | object>(
                 (acc, cur) => ({
                     ...acc,
                     ...cur.subroutes?.find(subroute => subroute.default),
                 }),
                 {}
             );
-            const has_default_subroute = !isEmptyObject(default_subroute);
+
+            const isNotEmpty = (obj: object | TRoute): obj is TRoute => !isEmptyObject(obj);
+            const has_default_subroute = isNotEmpty(default_subroute);
+
             const pathname = removeBranchName(location.pathname);
 
             const RouteComponent = route.component as React.ElementType;
