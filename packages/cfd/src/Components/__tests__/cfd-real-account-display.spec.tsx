@@ -1,26 +1,17 @@
-import { fireEvent, render, screen } from '@testing-library/react';
 import React from 'react';
-import { CFDRealAccountDisplay } from '../cfd-real-account-display';
+import { fireEvent, render, screen } from '@testing-library/react';
 import { mockStore } from '@deriv/stores';
+import { CFDRealAccountDisplay, TCFDRealAccountDisplayProps } from '../cfd-real-account-display';
 import CFDProviders from '../../cfd-providers';
-
-const mock_connect_props = {
-    dxtrade_tokens: {
-        demo: '',
-        real: '',
-    },
-    setMT5TradeAccount: jest.fn(),
-    isEligibleForMoreRealMt5: () => true,
-};
 
 describe('<CFDRealAccountDisplay />', () => {
     const TESTED_CASES = {
         EU: 'eu',
         NON_EU_DMT5: 'non_eu_dmt5',
         NON_EU_DXTRADE: 'non_eu_dxtrade',
-    };
+    } as const;
 
-    let props;
+    let props: TCFDRealAccountDisplayProps;
 
     beforeEach(() => {
         props = {
@@ -40,10 +31,11 @@ describe('<CFDRealAccountDisplay />', () => {
             openDerivRealAccountNeededModal: jest.fn(),
             openAccountTransfer: jest.fn(),
             openPasswordManager: jest.fn(),
-            openPasswordModal: jest.fn(),
             platform: 'mt5',
             realSyntheticAccountsExistingData: jest.fn(),
             realFinancialAccountsExistingData: jest.fn(),
+            real_account_creation_unlock_date: '',
+            setShouldShowCooldownModal: jest.fn(),
             residence: 'id',
             should_enable_add_button: false,
             standpoint: {
@@ -60,137 +52,9 @@ describe('<CFDRealAccountDisplay />', () => {
         };
     });
 
-    const account_settings_eu = {
-        account_opening_reason: 'Income Earning',
-        address_city: 'warsaw',
-        address_line_1: 'test',
-        address_line_2: 'test',
-        address_postcode: '3243233',
-        address_state: 'MZ',
-        allow_copiers: 0,
-        citizen: 'pl',
-        client_tnc_status: 'Version 4.2.0 2020-08-07',
-        country: 'Poland',
-        country_code: 'pl',
-        date_of_birth: 137894400,
-        email: 'name@domain.com',
-        email_consent: 1,
-        feature_flag: {
-            wallet: 0,
-        },
-        first_name: 'Name',
-        has_secret_answer: 1,
-        immutable_fields: [
-            'account_opening_reason',
-            'citizen',
-            'date_of_birth',
-            'first_name',
-            'last_name',
-            'place_of_birth',
-            'residence',
-            'salutation',
-        ],
-        is_authenticated_payment_agent: 0,
-        last_name: 'LastName',
-        non_pep_declaration: 1,
-        phone: '+48354334543434',
-        place_of_birth: 'pl',
-        preferred_language: 'EN',
-        request_professional_status: 0,
-        residence: 'Poland',
-        salutation: 'Ms',
-        tax_identification_number: '3432324232',
-        tax_residence: 'pl',
-        user_hash: 'f8029d070387e67bdfbc3857021382905b1513a42386c7278fd352852e11f06f',
-    };
+    type TTESTED_CASES = typeof TESTED_CASES[keyof typeof TESTED_CASES];
 
-    const standard_company = {
-        address: null,
-        changeable_fields: {},
-        country: 'Saint Vincent and the Grenadines',
-        currency_config: {},
-        has_reality_check: 0,
-        legal_allowed_contract_categories: {},
-        legal_allowed_currencies: {},
-        legal_allowed_markets: {},
-        legal_default_currency: 'USD',
-        name: 'Deriv (SVG) LLC',
-        requirements: {},
-        shortcode: 'svg',
-        support_professional_client: 0,
-    };
-
-    const mt5_real_synthetic_account = {
-        account_type: 'real',
-        balance: 0,
-        country: 'id',
-        currency: 'USD',
-        display_balance: '0.00',
-        display_login: '41165492',
-        email: 'name@domain.com',
-        group: 'real\\p01_ts03\\synthetic\\svg_std_usd\\03',
-        landing_company_short: 'svg',
-        leverage: 500,
-        login: 'MTR41165492',
-        market_type: 'synthetic',
-        name: 'Name LastName',
-        server: 'p01_ts03',
-        server_info: {
-            environment: 'Deriv-Server',
-            geolocation: {
-                group: 'asia_synthetic',
-                location: 'Singapore',
-                region: 'Asia',
-                sequence: 1,
-            },
-            id: 'p01_ts03',
-        },
-        sub_account_type: 'financial',
-    };
-
-    const mt5_real_financial_account = {
-        account_type: 'real',
-        balance: 0,
-        country: 'id',
-        currency: 'USD',
-        display_balance: '0.00',
-        display_login: '1927245',
-        email: 'name@domain.com',
-        group: 'real\\p01_ts01\\financial\\svg_std-hr_usd',
-        landing_company_short: 'svg',
-        leverage: 1000,
-        login: 'MTR1927245',
-        market_type: 'financial',
-        name: 'Name LastName',
-        server: 'p01_ts01',
-        server_info: {
-            environment: 'Deriv-Server',
-            geolocation: {
-                group: 'all',
-                location: 'Ireland',
-                region: 'Europe',
-                sequence: 1,
-            },
-            id: 'p01_ts01',
-        },
-        sub_account_type: 'financial',
-    };
-
-    const dxtrade_real_synthetic_account = {
-        account_id: 'DXR1095',
-        account_type: 'real',
-        balance: 0,
-        currency: 'USD',
-        display_balance: '0.00',
-        display_login: 'DXR1095',
-        enabled: 1,
-        landing_company_short: 'svg',
-        login: '374',
-        market_type: 'synthetic',
-        platform: 'dxtrade',
-    };
-
-    const checkAccountCardsRendering = tested_case => {
+    const checkAccountCardsRendering = (tested_case: TTESTED_CASES) => {
         const first_account_card = 'Derived';
         const second_account_card = {
             eu: 'CFDs',
@@ -215,7 +79,7 @@ describe('<CFDRealAccountDisplay />', () => {
 
         checkAccountCardsRendering(TESTED_CASES.NON_EU_DMT5);
         const add_real_account_buttons = screen.getAllByRole('button', { name: /add real account/i });
-        expect(add_real_account_buttons.length).toBe(2);
+        expect(add_real_account_buttons).toHaveLength(2);
 
         fireEvent.click(add_real_account_buttons[0]);
         expect(props.onSelectAccount).toHaveBeenCalledWith({ type: 'synthetic', category: 'real', platform: 'mt5' });
@@ -230,22 +94,14 @@ describe('<CFDRealAccountDisplay />', () => {
         });
 
         checkAccountCardsRendering(TESTED_CASES.NON_EU_DMT5);
-        expect(screen.queryAllByRole('button', { name: /add real account/i }).length).toBe(0);
+        expect(screen.queryByRole('button', { name: /add real account/i })).not.toBeInTheDocument();
     });
 
     it('should render a CFDs card only with enabled "Add real account" button on Deriv MT5 when is_logged_in=true, should_enable_add_button=true & show_eu_related_content=true', () => {
         props.isSyntheticCardVisible = jest.fn(() => false);
-        render(
-            <CFDRealAccountDisplay
-                {...props}
-                show_eu_related_content
-                should_enable_add_button
-                account_settings={account_settings_eu}
-            />,
-            {
-                wrapper: ({ children }) => <CFDProviders store={mockStore({})}>{children}</CFDProviders>,
-            }
-        );
+        render(<CFDRealAccountDisplay {...props} show_eu_related_content should_enable_add_button />, {
+            wrapper: ({ children }) => <CFDProviders store={mockStore({})}>{children}</CFDProviders>,
+        });
 
         checkAccountCardsRendering(TESTED_CASES.EU);
         const add_real_account_button = screen.getByRole('button', { name: /add real account/i });
@@ -262,7 +118,7 @@ describe('<CFDRealAccountDisplay />', () => {
         });
 
         checkAccountCardsRendering(TESTED_CASES.EU);
-        expect(screen.queryAllByRole('button', { name: /add real account/i }).length).toBe(0);
+        expect(screen.queryByRole('button', { name: /add real account/i })).not.toBeInTheDocument();
     });
 
     it('should render Derived & Financial cards with enabled buttons on Deriv X when is_logged_in=true & is_eu=false', () => {
@@ -272,7 +128,7 @@ describe('<CFDRealAccountDisplay />', () => {
 
         checkAccountCardsRendering(TESTED_CASES.NON_EU_DXTRADE);
         const add_real_account_buttons = screen.getAllByRole('button', { name: /add real account/i });
-        expect(add_real_account_buttons.length).toBe(3);
+        expect(add_real_account_buttons).toHaveLength(3);
 
         fireEvent.click(add_real_account_buttons[0]);
         expect(props.onSelectAccount).toHaveBeenCalledWith({
@@ -295,7 +151,7 @@ describe('<CFDRealAccountDisplay />', () => {
         });
 
         checkAccountCardsRendering(TESTED_CASES.NON_EU_DXTRADE);
-        expect(screen.queryAllByRole('button', { name: /add real account/i }).length).toBe(0);
+        expect(screen.queryByRole('button', { name: /add real account/i })).not.toBeInTheDocument();
     });
 
     it('should show "Switch to your real account", which opens Account Switcher, on Deriv X cards when has_real_account=true & is_virtual=true', () => {
@@ -304,9 +160,9 @@ describe('<CFDRealAccountDisplay />', () => {
         });
 
         checkAccountCardsRendering(TESTED_CASES.NON_EU_DMT5);
-        expect(screen.queryAllByRole('button', { name: /add real account/i }).length).toBe(0);
+        expect(screen.queryByRole('button', { name: /add real account/i })).not.toBeInTheDocument();
         const switch_to_real_account_links = screen.getAllByText('Switch to your real account');
-        expect(switch_to_real_account_links.length).toBe(3);
+        expect(switch_to_real_account_links).toHaveLength(3);
 
         fireEvent.click(switch_to_real_account_links[0]);
         expect(props.toggleShouldShowRealAccountsList).toHaveBeenCalledWith(true);

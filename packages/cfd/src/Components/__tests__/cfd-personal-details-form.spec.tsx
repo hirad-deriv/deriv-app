@@ -1,8 +1,8 @@
+import React, { ReactPortal } from 'react';
+import ReactDOM from 'react-dom';
 import { fireEvent, render, screen, waitFor, within } from '@testing-library/react';
 import { isMobile } from '@deriv/shared';
-import React from 'react';
-import ReactDOM from 'react-dom';
-import CFDPersonalDetailsForm from '../cfd-personal-details-form';
+import CFDPersonalDetailsForm, { TCFDPersonalDetailsFormProps } from '../cfd-personal-details-form';
 
 jest.mock('@deriv/shared', () => ({
     ...jest.requireActual('@deriv/shared'),
@@ -10,16 +10,15 @@ jest.mock('@deriv/shared', () => ({
 }));
 
 describe('<CFDPersonalDetailsForm />', () => {
-    beforeAll(() => (ReactDOM.createPortal = jest.fn(component => component)));
-    afterAll(() => ReactDOM.createPortal.mockClear());
+    beforeAll(() => jest.spyOn(ReactDOM, 'createPortal').mockImplementation(component => component as ReactPortal));
+    afterAll(() => jest.spyOn(ReactDOM, 'createPortal').mockClear());
     beforeEach(() => {
-        isMobile.mockReturnValue(false);
+        (isMobile as jest.Mock).mockReturnValue(false);
     });
 
-    const props = {
+    const props: TCFDPersonalDetailsFormProps = {
         form_error: undefined,
         index: 0,
-        is_fully_authenticated: false,
         is_loading: false,
         landing_company: {
             config: {
@@ -115,7 +114,7 @@ describe('<CFDPersonalDetailsForm />', () => {
     });
 
     it('should not render scrollbars or modal footer wrapper on mobile', () => {
-        isMobile.mockReturnValue(true);
+        (isMobile as jest.Mock).mockReturnValue(true);
         render(<CFDPersonalDetailsForm {...props} />);
 
         expect(screen.queryByTestId('dt_themed_scrollbars')).not.toBeInTheDocument();
@@ -146,14 +145,7 @@ describe('<CFDPersonalDetailsForm />', () => {
         };
 
         const changeable_fields = ['tax_identification_number'];
-        render(
-            <CFDPersonalDetailsForm
-                {...props}
-                is_fully_authenticated
-                value={values}
-                changeable_fields={changeable_fields}
-            />
-        );
+        render(<CFDPersonalDetailsForm {...props} value={values} changeable_fields={changeable_fields} />);
 
         expect(screen.getByRole('textbox', { name: /citizenship/i })).toBeDisabled();
         expect(screen.getByRole('textbox', { name: /tax residence/i })).toBeDisabled();

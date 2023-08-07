@@ -22,7 +22,7 @@ type TOpenAccountTransferMeta = {
     type?: string;
 };
 
-type TCFDDemoAccountDisplayProps = {
+export type TCFDDemoAccountDisplayProps = {
     is_eu: boolean;
     is_eu_country: boolean;
     has_maltainvest_account: boolean;

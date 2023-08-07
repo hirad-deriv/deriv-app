@@ -1,8 +1,8 @@
 import React from 'react';
-import { fireEvent, render, screen, waitFor } from '@testing-library/react';
-import CFDPOA from '../cfd-poa';
 import { BrowserRouter } from 'react-router-dom';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { WS, isDesktop, isMobile } from '@deriv/shared';
+import CFDPOA, { TCFDPOAProps } from '../cfd-poa';
 
 const poa_status_codes = {
     none: 'none',
@@ -72,7 +72,7 @@ describe('<CFDPOA />', () => {
         address_town: 'Town/City*',
     };
 
-    let modal_root_el;
+    let modal_root_el: HTMLElement, props: TCFDPOAProps;
 
     beforeAll(() => {
         modal_root_el = document.createElement('div');
@@ -84,15 +84,13 @@ describe('<CFDPOA />', () => {
         document.body.removeChild(modal_root_el);
     });
 
-    let props;
-
     beforeEach(() => {
         props = {
             onSave: jest.fn(),
             index: 1,
             onSubmit: jest.fn(),
             refreshNotifications: jest.fn(),
-            form_error: undefined,
+            form_error: '',
             get_settings: {
                 account_opening_reason: '',
                 address_city: 'Woodlands',
@@ -128,11 +126,12 @@ describe('<CFDPOA />', () => {
                 user_hash: '823341c18bfccb391b6bb5d77ab7e6a83991f82669c1ba4e5b01dbd2fd71c7fe',
             },
             height: 'auto',
-            is_loading: false,
-            states_list: {
-                text: 'Central Singapore',
-                value: '01',
-            },
+            states_list: [
+                {
+                    text: 'Central Singapore',
+                    value: '01',
+                },
+            ],
             storeProofOfAddress: jest.fn(),
             value: {
                 address_line_1: '',
@@ -145,7 +144,11 @@ describe('<CFDPOA />', () => {
     });
 
     it('should render the POA component form', async () => {
-        renderwithRouter(<CFDPOA {...props} />);
+        const new_props = {
+            ...props,
+            states_list: [],
+        };
+        renderwithRouter(<CFDPOA {...new_props} />);
 
         expect(await screen.findByText(/Address information/i)).toBeInTheDocument();
 
@@ -163,12 +166,13 @@ describe('<CFDPOA />', () => {
         expect(await screen.findByText(/Address information/i)).toBeInTheDocument();
 
         const next_btn = screen.getByRole('button', { name: /Next/i });
-        expect(next_btn.disabled).toBe(true);
+        expect(next_btn).toBeDisabled();
     });
 
     it('should render the correct input values', async () => {
         const new_props = {
             ...props,
+            states_list: [],
             value: {
                 address_line_1: 'dead end',
                 address_line_2: 'Psycho Path',
@@ -187,11 +191,11 @@ describe('<CFDPOA />', () => {
         const address_state_input = screen.getByLabelText(address.address_state);
         const address_postcode_input = screen.getByLabelText(address.address_postcode);
 
-        expect(address_line_1_input.value).toBe('dead end');
-        expect(address_line_2_input.value).toBe('Psycho Path');
-        expect(address_town_input.value).toBe('hells kitchen');
-        expect(address_state_input.value).toBe('alabama');
-        expect(address_postcode_input.value).toBe('666');
+        expect(address_line_1_input).toHaveValue('dead end');
+        expect(address_line_2_input).toHaveValue('Psycho Path');
+        expect(address_town_input).toHaveValue('hells kitchen');
+        expect(address_state_input).toHaveValue('alabama');
+        expect(address_postcode_input).toHaveValue('666');
     });
 
     it('should have validation errors on form if fields are empty', async () => {
@@ -240,8 +244,8 @@ describe('<CFDPOA />', () => {
     });
 
     it('should render CFDPOA component with states_list combobox for mobile', async () => {
-        isDesktop.mockReturnValue(false);
-        isMobile.mockReturnValue(true);
+        (isDesktop as jest.Mock).mockReturnValue(false);
+        (isMobile as jest.Mock).mockReturnValue(true);
 
         props.states_list = [
             { text: 'State 1', value: 'State 1' },
@@ -252,10 +256,10 @@ describe('<CFDPOA />', () => {
         expect(await screen.findByText(/Address information/i)).toBeInTheDocument();
 
         const address_state_input = screen.getByRole('combobox');
-        expect(address_state_input.value).toBe('');
+        expect(address_state_input).toHaveValue('');
         fireEvent.change(address_state_input, { target: { value: 'State 2' } });
         await waitFor(() => {
-            expect(address_state_input.value).toBe('State 2');
+            expect(address_state_input).toHaveValue('State 2');
         });
     });
 });

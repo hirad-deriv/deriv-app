@@ -20,7 +20,7 @@ import {
 import { isDeepEqual, isDesktop, isMobile } from '@deriv/shared';
 import { Localize, localize } from '@deriv/translations';
 
-type TCFDPersonalDetailsFormProps = {
+export type TCFDPersonalDetailsFormProps = {
     changeable_fields?: string[];
     form_error?: string;
     index: number;

@@ -1,8 +1,8 @@
-import { fireEvent, render, screen } from '@testing-library/react';
 import React from 'react';
-import { CFDDemoAccountDisplay } from '../cfd-demo-account-display';
-import CFDProviders from '../../cfd-providers';
+import { fireEvent, render, screen } from '@testing-library/react';
 import { mockStore } from '@deriv/stores';
+import { CFDDemoAccountDisplay, TCFDDemoAccountDisplayProps } from '../cfd-demo-account-display';
+import CFDProviders from '../../cfd-providers';
 
 const mock_connect_props = {
     modules: {
@@ -25,9 +25,9 @@ describe('<CFDDemoAccountDisplay />', () => {
         LOADING: 'loading',
         NON_EU_DMT5: 'non_eu_dmt5',
         NON_EU_DXTRADE: 'non_eu_dxtrade',
-    };
+    } as const;
 
-    let props;
+    let props: TCFDDemoAccountDisplayProps;
 
     beforeEach(() => {
         props = {
@@ -57,49 +57,9 @@ describe('<CFDDemoAccountDisplay />', () => {
         };
     });
 
-    const mt5_demo_financial_account = {
-        account_type: 'demo',
-        balance: 10000,
-        country: 'id',
-        currency: 'USD',
-        display_balance: '10000.00',
-        display_login: '20103240',
-        email: 'name@domain.com',
-        group: 'demo\\p01_ts02\\financial\\svg_std_usd',
-        landing_company_short: 'svg',
-        leverage: 1000,
-        login: 'MTD20103240',
-        market_type: 'financial',
-        name: 'Name LastName',
-        server: 'p01_ts02',
-        server_info: {
-            environment: 'Deriv-Demo',
-            geolocation: {
-                group: 'all',
-                location: 'N. Virginia',
-                region: 'US East',
-                sequence: 1,
-            },
-            id: 'p01_ts02',
-        },
-        sub_account_type: 'financial',
-    };
+    type TESTED_CASES_VALUES = typeof TESTED_CASES[keyof typeof TESTED_CASES];
 
-    const dxtrade_demo_synthetic_account = {
-        account_id: 'DXD1096',
-        account_type: 'demo',
-        balance: 10000,
-        currency: 'USD',
-        display_balance: '10000.00',
-        display_login: 'DXD1096',
-        enabled: 1,
-        landing_company_short: 'svg',
-        login: '374',
-        market_type: 'synthetic',
-        platform: 'dxtrade',
-    };
-
-    const checkAccountCardsRendering = tested_case => {
+    const checkAccountCardsRendering = (tested_case: TESTED_CASES_VALUES) => {
         const component_testid = 'dt_cfd_demo_accounts_display';
         const first_account_card = 'Derived';
         const second_account_card = {
@@ -133,7 +93,7 @@ describe('<CFDDemoAccountDisplay />', () => {
 
         checkAccountCardsRendering(TESTED_CASES.NON_EU_DMT5);
         const add_demo_account_buttons = screen.getAllByRole('button', { name: /add demo account/i });
-        expect(add_demo_account_buttons.length).toBe(2);
+        expect(add_demo_account_buttons).toHaveLength(2);
 
         fireEvent.click(add_demo_account_buttons[0]);
         expect(props.onSelectAccount).toHaveBeenCalledWith({ type: 'synthetic', category: 'demo', platform: 'mt5' });
@@ -148,7 +108,7 @@ describe('<CFDDemoAccountDisplay />', () => {
         });
 
         checkAccountCardsRendering(TESTED_CASES.NON_EU_DMT5);
-        expect(screen.queryAllByRole('button', { name: /add demo account/i }).length).toBe(0);
+        expect(screen.queryByRole('button', { name: /add demo account/i })).not.toBeInTheDocument();
     });
 
     it('should render a CFDs card only with enabled "Add demo account" button on Deriv MT5 when EU, is_logged_in=true, standpoint.iom=true & has_maltainvest_account=false', () => {
@@ -173,7 +133,7 @@ describe('<CFDDemoAccountDisplay />', () => {
         });
 
         checkAccountCardsRendering(TESTED_CASES.EU);
-        expect(screen.queryAllByRole('button', { name: /add demo account/i }).length).toBe(0);
+        expect(screen.queryByRole('button', { name: /add demo account/i })).not.toBeInTheDocument();
     });
 
     it('should render Derived & Financial cards with enabled buttons on Deriv X when is_logged_in=true & is_eu=false', () => {
@@ -183,7 +143,7 @@ describe('<CFDDemoAccountDisplay />', () => {
 
         checkAccountCardsRendering(TESTED_CASES.NON_EU_DXTRADE);
         const add_demo_account_buttons = screen.getAllByRole('button', { name: /add demo account/i });
-        expect(add_demo_account_buttons.length).toBe(2);
+        expect(add_demo_account_buttons).toHaveLength(2);
 
         fireEvent.click(add_demo_account_buttons[0]);
         expect(props.onSelectAccount).toHaveBeenCalledWith({
@@ -206,7 +166,7 @@ describe('<CFDDemoAccountDisplay />', () => {
         });
 
         checkAccountCardsRendering(TESTED_CASES.NON_EU_DXTRADE);
-        expect(screen.queryAllByRole('button', { name: /add demo account/i }).length).toBe(0);
+        expect(screen.queryByRole('button', { name: /add demo account/i })).not.toBeInTheDocument();
     });
 
     it('should disable all "Add demo account" buttons when has_cfd_account_error=true', () => {

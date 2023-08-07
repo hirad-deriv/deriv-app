@@ -29,7 +29,7 @@ type TCurrentList = DetailsOfEachMT5Loginid & {
     enabled: number;
 };
 
-type TCFDRealAccountDisplayProps = {
+export type TCFDRealAccountDisplayProps = {
     has_real_account: boolean;
     is_accounts_switcher_on: boolean;
     is_eu: boolean;
