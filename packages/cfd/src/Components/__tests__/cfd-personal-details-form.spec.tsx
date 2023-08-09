@@ -2,7 +2,7 @@ import React, { ReactPortal } from 'react';
 import ReactDOM from 'react-dom';
 import { fireEvent, render, screen, waitFor, within } from '@testing-library/react';
 import { isMobile } from '@deriv/shared';
-import CFDPersonalDetailsForm, { TCFDPersonalDetailsFormProps } from '../cfd-personal-details-form';
+import CFDPersonalDetailsForm from '../cfd-personal-details-form';
 
 jest.mock('@deriv/shared', () => ({
     ...jest.requireActual('@deriv/shared'),
@@ -16,7 +16,7 @@ describe('<CFDPersonalDetailsForm />', () => {
         (isMobile as jest.Mock).mockReturnValue(false);
     });
 
-    const props: TCFDPersonalDetailsFormProps = {
+    const props: React.ComponentProps<typeof CFDPersonalDetailsForm> = {
         form_error: undefined,
         index: 0,
         is_loading: false,

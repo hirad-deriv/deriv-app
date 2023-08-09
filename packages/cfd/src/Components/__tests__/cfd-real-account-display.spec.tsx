@@ -1,7 +1,7 @@
 import React from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { mockStore } from '@deriv/stores';
-import { CFDRealAccountDisplay, TCFDRealAccountDisplayProps } from '../cfd-real-account-display';
+import { CFDRealAccountDisplay } from '../cfd-real-account-display';
 import CFDProviders from '../../cfd-providers';
 
 describe('<CFDRealAccountDisplay />', () => {
@@ -11,7 +11,7 @@ describe('<CFDRealAccountDisplay />', () => {
         NON_EU_DXTRADE: 'non_eu_dxtrade',
     } as const;
 
-    let props: TCFDRealAccountDisplayProps;
+    let props: React.ComponentProps<typeof CFDRealAccountDisplay>;
 
     beforeEach(() => {
         props = {
