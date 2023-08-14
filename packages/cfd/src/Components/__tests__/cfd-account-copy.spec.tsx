@@ -5,7 +5,7 @@ import { CFDAccountCopy } from '../cfd-account-copy';
 const props = {
     className: 'cfd-account-copy',
     text: 'text',
-};
+} as const;
 
 describe('<CFDAccountCopy />', () => {
     it('component should be rendered', () => {

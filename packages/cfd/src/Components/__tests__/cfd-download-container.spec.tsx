@@ -31,13 +31,11 @@ describe('CFDDownloadContainer', () => {
             demo: '',
             real: '',
         },
-    };
+    } as const;
 
     it('should render <CFDDownloadContainer /> correctly', () => {
         render(<CFDDownloadContainer {...mock_props} />);
         expect(screen.getByTestId(/dt_cfd_dashboard_download_center_container/i)).toBeInTheDocument();
-        // await waitFor(() => {
-        // });
     });
     it('should render correct text according to the MT5 platform', () => {
         render(<CFDDownloadContainer {...mock_props} />);

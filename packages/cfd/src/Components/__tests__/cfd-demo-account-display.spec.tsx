@@ -17,7 +17,7 @@ const mock_connect_props = {
     client: {
         isEligibleForMoreDemoMt5Svg: () => true,
     },
-};
+} as const;
 
 describe('<CFDDemoAccountDisplay />', () => {
     const TESTED_CASES = {

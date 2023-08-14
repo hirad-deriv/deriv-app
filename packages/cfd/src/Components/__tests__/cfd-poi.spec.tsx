@@ -84,7 +84,7 @@ describe('<CFDPOI />', () => {
         value: {
             poi_state: 'unknown',
         },
-    };
+    } as const;
 
     it('should render ProofOfIdentityContainerForMt5', () => {
         render(<CFDPOI {...props} />, {
