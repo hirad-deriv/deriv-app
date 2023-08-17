@@ -1,12 +1,12 @@
 import { PromiseClass } from '../utility';
-import type { TCommonStore } from '@deriv/stores/types';
+import type { TStores } from '@deriv/stores/types';
 
 const ServerTime = (() => {
     let clock_started = false;
     const pending = new PromiseClass();
-    let common_store: TCommonStore;
+    let common_store: TStores['common'];
 
-    const init = (store: TCommonStore) => {
+    const init = (store: TStores['common']) => {
         if (!clock_started) {
             common_store = store;
             pending.resolve(common_store.server_time);

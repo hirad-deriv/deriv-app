@@ -84,7 +84,7 @@ type TMt5StatusServer = Record<'demo' | 'real', TMt5StatusServerType[]>;
 
 export type TObjectCFDAccount = { category: string; type: string; set_password?: number; platform?: string };
 
-export type TCFDDashboardProps = RouteComponentProps & {
+type TCFDDashboardProps = RouteComponentProps & {
     account_status: object;
     // TODO: update this type (DetailsOfEachMT5Loginid) when BE changed the schema
     platform: 'mt5' | 'dxtrade';
