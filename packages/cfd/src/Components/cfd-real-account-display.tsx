@@ -65,7 +65,6 @@ type TCFDRealAccountDisplayProps = {
     toggleAccountsDialog: (is_accounts_switcher_on?: boolean) => void;
     toggleShouldShowRealAccountsList: (prop: boolean) => void;
     residence: string;
-    account_status?: object;
     openDerivRealAccountNeededModal: () => void;
     should_enable_add_button?: boolean;
     real_account_creation_unlock_date: string;

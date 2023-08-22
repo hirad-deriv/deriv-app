@@ -1,5 +1,5 @@
 import React from 'react';
-import { RouteComponentProps, useLocation } from 'react-router';
+import { useLocation } from 'react-router';
 import { Redirect, useHistory } from 'react-router-dom';
 import { Icon, Tabs, PageError, Loading, Text } from '@deriv/components';
 import {
@@ -84,8 +84,7 @@ type TMt5StatusServer = Record<'demo' | 'real', TMt5StatusServerType[]>;
 
 export type TObjectCFDAccount = { category: string; type: string; set_password?: number; platform?: string };
 
-type TCFDDashboardProps = RouteComponentProps & {
-    account_status: object;
+type TCFDDashboardProps = {
     // TODO: update this type (DetailsOfEachMT5Loginid) when BE changed the schema
     platform: 'mt5' | 'dxtrade';
 };
@@ -235,20 +234,20 @@ const CFDDashboard = observer((props: TCFDDashboardProps) => {
             setIsRealEnabled(true);
             setIsDemoEnabled(true);
         }
-        if (props.location.hash === '#demo') {
+        if (location.hash === '#demo') {
             setIsDemoEnabled(true);
             setActiveIndex(1);
         }
     });
 
     React.useEffect(() => {
-        if (props.location.hash === '#real') {
+        if (location.hash === '#real') {
             setActiveIndex(0);
         }
-        if (props.location.hash === '#demo-all' || props.location.hash === '#demo') {
+        if (location.hash === '#demo-all' || location.hash === '#demo') {
             setActiveIndex(1);
         }
-    }, [props.location.hash]);
+    }, [location.hash]);
 
     const openResetPassword = () => {
         if (!/reset-password/.test(location.hash)) {
@@ -389,7 +388,7 @@ const CFDDashboard = observer((props: TCFDDashboardProps) => {
         );
     };
 
-    const { account_status, platform } = props;
+    const { platform } = props;
 
     const isSwapFreeCardVisible = () => {
         return (
@@ -531,7 +530,6 @@ const CFDDashboard = observer((props: TCFDDashboardProps) => {
                                                         : has_cfd_real_account_dxtrade_error
                                                 }
                                                 current_list={current_list}
-                                                account_status={account_status}
                                                 onSelectAccount={createCFDAccount}
                                                 realSyntheticAccountsExistingData={getRealSyntheticAccountsExistingData}
                                                 realFinancialAccountsExistingData={getRealFinancialAccountsExistingData}
