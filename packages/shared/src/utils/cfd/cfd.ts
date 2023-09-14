@@ -103,6 +103,9 @@ export const getCFDAccountKey = ({ market_type, sub_account_type, platform, shor
             }
         }
     }
+    if (market_type === 'maltainvest') {
+        return 'cfd';
+    }
     return undefined;
 };
 

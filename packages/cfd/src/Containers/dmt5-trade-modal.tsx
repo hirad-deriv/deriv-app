@@ -120,7 +120,6 @@ const DMT5TradeModal = ({
             platform: CFD_PLATFORMS.MT5,
             is_eu: show_eu_related_content,
             shortcode: getCompanyShortcode(),
-            is_mt5_trade_modal: true,
         });
     const getAccountTitle = () => {
         if (show_eu_related_content) return 'CFDs';
