@@ -11,6 +11,8 @@ type TAppProps = {
     };
 };
 
+// checking to see if the new workflow works as expected
+
 const App = ({ passthrough }: TAppProps) => {
     initStore(passthrough.root_store, passthrough.WS);
 
